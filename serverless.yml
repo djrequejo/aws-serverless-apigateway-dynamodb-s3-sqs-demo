@@ -1,0 +1,88 @@
+service: demo-sam-apigw-dynamodb
+    
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "dynamodb:*"
+          Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:custom.tablename-dynamodb}
+
+plugins:
+  - serverless-dynamodb
+  - serverless-offline
+
+package:
+  individually: true
+  patterns:
+    - "!*/**"
+
+functions:
+  get-users:
+    handler: get-users/handler.getUsers
+    package:
+      patterns:
+        - "get-users/handler.js"
+    events:
+      - http:
+          path: users/{id}
+          method: GET
+  create-user:
+    handler: create-user/handler.createUser
+    package:
+      patterns:
+        - "create-users/handler.js"
+    events:
+      - http:
+          path: users
+          method: POST
+  update-user:
+    handler: update-user/handler.updateUser
+    package:
+      patterns:
+        - "update-users/handler.js"
+    events:
+      - http:
+          path: users/{id}
+          method: PATCH
+  delete-user:
+    handler: delete-user/handler.deleteUser
+    runtime: python3.11
+    package:
+      patterns:
+        - "delete-users/handler.py"
+    events:
+      - http:
+          path: users/{id}
+          method: DELETE
+
+custom:
+  tablename-dynamodb: demo-sam-apigw-dynamodb-table
+  serverless-dynamodb:
+  # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    # Uncomment only if you already have a DynamoDB running locally
+    # noStart: true
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.tablename-dynamodb}
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
