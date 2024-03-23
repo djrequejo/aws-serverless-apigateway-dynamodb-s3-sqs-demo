@@ -1,4 +1,4 @@
-service: ${self:custom.serviceName}
+service: ${self:custom.servicename}
 
 provider:
   name: aws
@@ -6,7 +6,7 @@ provider:
   stage: dev
   apiGateway:
     apiKeys:
-      - ${self:custom.serviceName}-apikey
+      - ${self:custom.servicename}-apikey
   iam:
     role:
       statements:
