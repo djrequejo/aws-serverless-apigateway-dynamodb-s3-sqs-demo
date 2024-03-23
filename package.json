@@ -2,7 +2,6 @@
   "name": "get-users",
   "version": "1.0.0",
   "description": "This is a demo about serverless application framework on AWS",
-  "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\""
   },
@@ -18,8 +17,12 @@
     "@aws-sdk/client-dynamodb": "^3.529.1",
     "@aws-sdk/lib-dynamodb": "^3.529.1",
     "serverless": "^3.38.0",
-    "serverless-offline": "^13.3.3",
-    "serverless-dynamodb": "^0.2.50"
+    "serverless-dynamodb": "^0.2.50",
+    "serverless-offline": "^13.3.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.536.0",
+    "@aws-sdk/s3-request-presigner": "^3.536.0",
+    "sharp": "^0.32.6"
+  }
 }
