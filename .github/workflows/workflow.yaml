@@ -34,7 +34,7 @@ jobs:
     - run: |
         npm install --production
         mkdir nodejs
-        cp node_modules nodejs
+        cp -r node_modules nodejs
         apt update -y && apt install zip -y
         zip -r nodejs.zip nodejs/
     
