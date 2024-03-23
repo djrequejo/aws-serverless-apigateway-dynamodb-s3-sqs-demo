@@ -1,9 +1,12 @@
-service: demo-sam-apigw-dynamodb
+service: ${self:custom.serviceName}
 
 provider:
   name: aws
   runtime: nodejs18.x
   stage: dev
+  apiGateway:
+    apiKeys:
+      - ${self:custom.serviceName}-apikey
   iam:
     role:
       statements:
@@ -35,6 +38,7 @@ functions:
     events:
       - http:
           path: users/{id}
+          private: true
           method: GET
           request:
             parameters:
@@ -132,7 +136,7 @@ layers:
     compatibleArchitectures:
       - x86_64
     package:
-      artifact: app/nodejs.zip
+      artifact: layers/nodejs.zip
 
 resources:
   Resources:
