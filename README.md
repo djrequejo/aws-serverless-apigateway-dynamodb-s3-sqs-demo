@@ -1,30 +1,105 @@
 # Demo SAM API Gateway DynamoDB
 
-This project demonstrates the usage of AWS Serverless Application Model (SAM) to create a RESTful API with AWS API Gateway and DynamoDB on AWS Lambda.
+This project demonstrates the usage of AWS Serverless Application Model (SAM) to create a RESTful API with AWS API Gateway, DynamoDB and S3 on AWS Lambda.
 
 ## Prerequisites
 
-- Node.js v18.x
-- Serverless Framework
-- AWS CLI configured
-- AWS account with permissions to create API Gateway, DynamoDB resources, and IAM roles.
+Before deploying this service, make sure you have the following:
+- An AWS account
+- Serverless Framework installed globally
+- Node.js 18.x runtime installed
+- Python 3.11 runtime installed (for one function)
+- `generate-layer.ps1` for Windows or `generate-layer.sh` for Linux script for packaging the layer (`app/nodejs.zip`)
+- Optional: DynamoDB Local installed for local development
 
-## Installation
+## Service Details
 
-1. Clone this repository:
-```bash
-git clone https://github.com/djrequejo/aws-demo-sam-apigw-dynamodb.git
-cd demo-sam-apigw-dynamodb
-```
+This service consists of several Lambda functions, an API Gateway, DynamoDB table, S3 bucket, and associated configurations.
 
-2. Install project dependencies:
-```bash
-npm install
-```
+- **Service Name:** demo-sam-apigw-dynamodb
+- **Runtime:** Node.js 18.x
+- **Stage:** dev
 
-## Configuration
+## IAM Permissions
 
-Before deploying the service to AWS, make sure to configure the `serverless.yaml` file with appropriate values for your environment, including the DynamoDB table name and any other specific settings.
+The service requires the following IAM permissions:
+
+- Access to DynamoDB operations (`dynamodb:*`) on a specific table.
+- Access to S3 operations (`s3:*`) on a specific bucket.
+
+## Environment Variables
+
+- `BUCKET_NAME`: Name of the S3 bucket
+- `REGION`: AWS region
+
+## Plugins
+
+- `serverless-dynamodb`: Plugin for DynamoDB integration
+- `serverless-offline`: Plugin for local development
+
+## Functions
+
+### 1. `get-users`
+
+- **Handler:** `src/get-users/handler.getUsers`
+- **Event:** HTTP GET `/users/{id}`
+
+### 2. `create-user`
+
+- **Handler:** `src/create-user/handler.createUser`
+- **Event:** HTTP POST `/users`
+
+### 3. `update-user`
+
+- **Handler:** `src/update-user/handler.updateUser`
+- **Event:** HTTP PATCH `/users/{id}`
+
+### 4. `delete-user`
+
+- **Handler:** `src/delete-user/handler.deleteUser`
+- **Runtime:** Python 3.11
+- **Event:** HTTP DELETE `/users/{id}`
+
+### 5. `sign-url`
+
+- **Handler:** `src/sing-url/handler.signedS3URL`
+- **Event:** HTTP GET `/signedurl`
+
+### 6. `thumbnail-generator`
+
+- **Handler:** `src/thumbnail/handler.thumbnailGenerator`
+- **Layer:** Thumbnail generator dependencies
+- **Event:** S3 ObjectCreated event in bucket `${self:custom.bucketname}` with prefix `upload/`
+
+## Custom Configuration
+
+- **Service Name:** demo-sam-apigw-dynamodb
+- **DynamoDB Table Name:** `${self:custom.servicename}-table`
+- **S3 Bucket Name:** `djrequejo-dev-${self:custom.servicename}-bucket-111`
+
+## Layers
+
+- **Name:** thumbnail-generator-dependencies
+- **Compatible Runtimes:** Node.js 18.x
+- **Compatible Architectures:** x86_64
+- **Package:** `app/nodejs.zip`
+
+## Resources
+
+### DynamoDB Table
+
+- **Name:** `usersTable`
+- **Provisioned Throughput:** 1 Read Capacity Unit, 1 Write Capacity Unit
+- **Attributes:** Single attribute `pk`
+
+### S3 Bucket
+
+- **Name:** `${self:custom.bucketname}`
+- **Access:** Public access enabled
+
+### S3 Bucket Policy
+
+- **Statements:** Allow public access to all objects in the bucket.
 
 ## Usage
 
@@ -44,15 +119,6 @@ You can test the service locally using the `serverless-offline` plugin. Run the 
 serverless offline start
 ```
 
-## Endpoints
-
-Once deployed, the service offers the following endpoints:
-
-- `GET /users/{id}`: Get details of a specific user.
-- `POST /users`: Create a new user.
-- `PATCH /users/{id}`: Update details of an existing user.
-- `DELETE /users/{id}`: Delete an existing user.
-
 ## Cleanup
 
 To remove all the resources created on AWS, run the following command:
@@ -60,6 +126,7 @@ To remove all the resources created on AWS, run the following command:
 ```bash
 serverless remove
 ```
+
 ## GitHub Actions Integration
 
 This project is integrated with GitHub Actions. A workflow named "Deploy DEV" is triggered on pull requests to the `main` branch. This workflow builds and tests the changes and then deploys the Lambda function using Serverless Framework. The deployment status is then commented on the pull request.
