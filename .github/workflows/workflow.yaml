@@ -20,9 +20,9 @@ jobs:
         npm run test
   
   build-js-layer-deps:
-    timeout-minutes:15
+    timeout-minutes: 15
     runs-on: ubuntu-latest
-    name:_ Build SLS Layer - Prod
+    name: Build SLS Layer - Prod
     container:
       image: "node:18-buster"
     steps:
