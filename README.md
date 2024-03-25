@@ -5,11 +5,11 @@ This project demonstrates the usage of AWS Serverless Application Model (SAM) to
 ## Prerequisites
 
 Before deploying this service, make sure you have the following:
-- An AWS account
-- Serverless Framework installed globally
+- An AWS account: `export AWS_PROFILE=<your profile>`
+- Serverless Framework installed globally `npm install -g serverless`
 - Node.js 18.x runtime installed
 - Python 3.11 runtime installed (for one function)
-- `generate-layer.ps1` for Windows or `generate-layer.sh` for Linux script for packaging the layer (`app/nodejs.zip`)
+- For packaging the lambda layer: `npm run layer`
 - Optional: DynamoDB Local installed for local development
 
 ## Service Details
@@ -31,58 +31,79 @@ The service requires the following IAM permissions:
 
 - `BUCKET_NAME`: Name of the S3 bucket
 - `REGION`: AWS region
+- `SECRET`: Secret name
+- `TABLE_NAME`: Name of the DynamoDB table
 
 ## Plugins
 
 - `serverless-dynamodb`: Plugin for DynamoDB integration
 - `serverless-offline`: Plugin for local development
+- `serverless-apigateway-service-proxy`: Plugin for API Gateway service proxy
+- `serverless-lift`: Plugin for Serverless Lift
 
 ## Functions
 
-### 1. `get-users`
+### 1. `custom-authorizer`
+
+- **Handler:** `src/authorizer/handler.authorize`
+- **Event:** HTTP custom authorizer
+
+### 2. `get-users`
 
 - **Handler:** `src/get-users/handler.getUsers`
 - **Event:** HTTP GET `/users/{id}`
+- **Authorize** Uses the `custom-authorizer` function
 
-### 2. `create-user`
+### 3. `create-user`
 
 - **Handler:** `src/create-user/handler.createUser`
 - **Event:** HTTP POST `/users`
+- **Authorizer* Uses `api-key` from API Gateway
 
-### 3. `update-user`
+### 4. `update-user`
 
 - **Handler:** `src/update-user/handler.updateUser`
 - **Event:** HTTP PATCH `/users/{id}`
 
-### 4. `delete-user`
+### 5. `delete-user`
 
 - **Handler:** `src/delete-user/handler.deleteUser`
 - **Runtime:** Python 3.11
 - **Event:** HTTP DELETE `/users/{id}`
 
-### 5. `sign-url`
+### 6. `sing-url`
 
 - **Handler:** `src/sing-url/handler.signedS3URL`
 - **Event:** HTTP GET `/signedurl`
 
-### 6. `thumbnail-generator`
+### 7. `thumbnail-generator`
 
 - **Handler:** `src/thumbnail/handler.thumbnailGenerator`
 - **Layer:** Thumbnail generator dependencies
 - **Event:** S3 ObjectCreated event in bucket `${self:custom.bucketname}` with prefix `upload/`
 
+### 8. `likeuser`
+
+- **Handler:** `src/likeuser/handler.likeuser`
+- **Event:** SQS Queue
+
 ## Custom Configuration
 
-- **Service Name:** demo-sam-apigw-dynamodb
-- **DynamoDB Table Name:** `${self:custom.servicename}-table`
-- **S3 Bucket Name:** `djrequejo-dev-${self:custom.servicename}-bucket-111`
+- **Service Name:** demo-serverless-apigw-dynamodb
+- **DynamoDB Table Name:** `${self:custom.servicename}-${self:provider.stage}-table`
+- **S3 Bucket Name:** `${self:custom.servicename}-${self:provider.stage}-bucket`
+- **Queue Name:** `${self:custom.servicename}-${self:provider.stage}-likequeue`
+- **Secret Name:** `${ssm:/${self:custom.servicename}/${self:provider.stage}}`
+- **API Key Name:** `${self:custom.servicename}-${self:provider.stage}-apikey`
+
 
 ## Layers
 
 - **Name:** thumbnail-generator-dependencies
 - **Compatible Runtimes:** Node.js 18.x
 - **Compatible Architectures:** x86_64
-- **Package:** `app/nodejs.zip`
+- **Package:** `layers/nodejs.zip`
+- **Generate Layer** Execute `npm run layers`
 
 ## Resources
 
@@ -108,7 +129,8 @@ The service requires the following IAM permissions:
 To deploy the service to your AWS account, run the following command:
 
 ```bash
-serverless deploy
+npm run layer
+npm run deploy
 ```
 
 ### Local Testing
@@ -116,7 +138,7 @@ serverless deploy
 You can test the service locally using the `serverless-offline` plugin. Run the following command to start the local server:
 
 ```bash
-serverless offline start
+npm run start
 ```
 
 ## Cleanup
