@@ -34,7 +34,7 @@ jobs:
     - run: |
         npm install --production
         mkdir nodejs
-        mv node_modules nodejs
+        cp -r node_modules nodejs
         apt update -y && apt install zip -y
         zip -r nodejs.zip nodejs/
     
@@ -64,7 +64,7 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: nodejsdeps
-        path: app/
+        path: layers/
 
     - name: Deploy using sls
       run: 'npx sls deploy'

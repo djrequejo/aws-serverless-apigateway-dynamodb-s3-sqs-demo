@@ -17,6 +17,7 @@ if (process.env.IS_OFFLINE) {
 
 const client = new DynamoDBClient(dynamoDBClientParams);
 const docClient = DynamoDBDocumentClient.from(client);
+const TABLE_NAME = process.env.TABLE_NAME;
 
 const getUsers = async (event, context) => {
     let { id } = event.pathParameters;
@@ -24,7 +25,7 @@ const getUsers = async (event, context) => {
     console.log(`Query param: ${id}`);
 
     const command = new QueryCommand({
-        TableName: "demo-sam-apigw-dynamodb-table",
+        TableName: TABLE_NAME,
         KeyConditionExpression: "pk = :pk",
         ExpressionAttributeValues: { ":pk": id }
     });

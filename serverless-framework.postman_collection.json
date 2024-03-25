@@ -1,0 +1,585 @@
+{
+	"info": {
+		"_postman_id": "2450e3d5-4fe7-47d1-96a5-2f4247b2ed38",
+		"name": "serverless-framework-course",
+		"description": "Course: [Curso Avanzado de Serverless Framework en AWS](https://platzi.com/cursos/serverless-avanzado/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3459641"
+	},
+	"item": [
+		{
+			"name": "api-users",
+			"item": [
+				{
+					"name": "Get User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dev/users/{{pk_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"users",
+								"{{pk_user}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200-Get User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://1pp3z1g8y7.execute-api.us-east-1.amazonaws.com/dev/users/c0beae8e-3f81-4b1b-b80c-afb69fa7574f",
+									"protocol": "https",
+									"host": [
+										"1pp3z1g8y7",
+										"execute-api",
+										"us-east-1",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"users",
+										"c0beae8e-3f81-4b1b-b80c-afb69fa7574f"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "86"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 12 Mar 2024 00:44:32 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "73c02d5c-30de-4363-8492-55c3016f7d8e"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "UfbJdGvYIAMEK9Q="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-65efa56f-4358d62f4c5a0cea1108f38f;Parent=177d5e3b7b5eace9;Sampled=0;lineage=31d00bc8:0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 e66305cf63ab24091e0243d6cba54254.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GRU1-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "IiOc5h14FA5lHys2lBvjd5XdZIm_xtIByB-YC-NsP778G7EsA40nhg=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": [\n        {\n            \"pk\": \"c0beae8e-3f81-4b1b-b80c-afb69fa7574f\",\n            \"name\": \"Diego Requejo\",\n            \"age\": 18\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/dev/users/{{pk_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"users",
+								"{{pk_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Diego Requejo\",\r\n    \"age\": 18\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dev/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200-Create User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Ana Milagro\",\r\n    \"age\": 18\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://1pp3z1g8y7.execute-api.us-east-1.amazonaws.com/dev/users",
+									"protocol": "https",
+									"host": [
+										"1pp3z1g8y7",
+										"execute-api",
+										"us-east-1",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "84"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 12 Mar 2024 00:44:18 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "4e73cef0-b1f8-4be6-834a-da5e35643fb8"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "UfbHTGXCoAMEGCw="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-65efa561-02fb5cab06fcc0192d85a4e0;Parent=3b1ddf1ff3e312a5;Sampled=0;lineage=1c90319f:0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 e66305cf63ab24091e0243d6cba54254.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GRU1-P3"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "WDcKosbLwu_7QKrB721yat60MRQkDBKYw7Y1mNaLIW3xhC9vQdaVIw=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"name\": \"Diego Requejo\",\n        \"age\": 18,\n        \"pk\": \"c0beae8e-3f81-4b1b-b80c-afb69fa7574f\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create User + Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Set PK\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.environment.set(\"pk_user\", jsonData.user.pk);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer abc123-22-9",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Diego Requejo\",\r\n    \"age\": 36\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dev/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200-Create User + Auth",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer abc123-22-24",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Diego Joel\",\r\n    \"age\": 36\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://1pp3z1g8y7.execute-api.us-east-1.amazonaws.com/dev/users",
+									"protocol": "https",
+									"host": [
+										"1pp3z1g8y7",
+										"execute-api",
+										"us-east-1",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "83"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 23 Mar 2024 22:25:12 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "994ef7db-bf77-4ea9-a89b-96bd31afd04a"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VGp_VE6roAMEXTA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-65ff56c8-5d2982b068ce75db630934fe;Parent=5ae20d60a9068143;Sampled=0;lineage=1c90319f:0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 e91dbea7869687e3ddc1239c553081e0.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GRU1-C1"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "bT9-4EngyITjgduDvtqRdg-nkcHcqtuciofR1hCz5BFCUGKQH01YQQ=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": {\n        \"name\": \"Diego Joel\",\n        \"age\": 36,\n        \"pk\": \"67584412-3c3b-4367-ac92-5d8088b6cc49\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Diego Joel Requejo\",\r\n    \"age\": 36,\r\n    \"phonenumber\": 132465\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dev/users/{{pk_user}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"users",
+								"{{pk_user}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signed Url",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/dev/signedurl?filename=image1.png",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"signedurl"
+							],
+							"query": [
+								{
+									"key": "filename",
+									"value": "image1.png"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "200-Get User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://1pp3z1g8y7.execute-api.us-east-1.amazonaws.com/dev/signedurl?filename=other-background.png",
+									"protocol": "https",
+									"host": [
+										"1pp3z1g8y7",
+										"execute-api",
+										"us-east-1",
+										"amazonaws",
+										"com"
+									],
+									"path": [
+										"dev",
+										"signedurl"
+									],
+									"query": [
+										{
+											"key": "filename",
+											"value": "other-background.png"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1417"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 22 Mar 2024 04:04:24 GMT"
+								},
+								{
+									"key": "x-amzn-RequestId",
+									"value": "7e4f9172-92c4-4888-bfcb-da4b44a87183"
+								},
+								{
+									"key": "x-amz-apigw-id",
+									"value": "VA1zVE58oAMEUhA="
+								},
+								{
+									"key": "X-Amzn-Trace-Id",
+									"value": "Root=1-65fd0348-335b6a383aff14e022bbc834;Parent=034f5c4ccfe53608;Sampled=0;lineage=f0e9090d:0"
+								},
+								{
+									"key": "X-Cache",
+									"value": "Miss from cloudfront"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 5ce364e30dcfb61805012dae39f02ed4.cloudfront.net (CloudFront)"
+								},
+								{
+									"key": "X-Amz-Cf-Pop",
+									"value": "GRU1-C1"
+								},
+								{
+									"key": "X-Amz-Cf-Id",
+									"value": "Q-NAX2pyiguA4qQ6XwSKOBnjUFGPY8_qG8qpyAo51mnG-zZ9E65dRg=="
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"signedUrl\": \"https://djrequejo-dev-demo-sam-apigw-dynamodb-bucket-111.s3.us-east-1.amazonaws.com/upload/other-background.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIA52S6LXMPGQH34KEH%2F20240322%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240322T040424Z&X-Amz-Expires=3600&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJGMEQCIDjuDfyVkQJa8kUcFoR0HwWqYtxiQ3WCEab8dFRQ4uZsAiBUoJoCBBI9%2BWEyhmw%2Blfq4gZeHcM4ahO29j4kez3R3aSqdAwg9EAAaDDk1MDQ1OTQxNTMyNiIMEYi6IBKISCtZiSfxKvoCjB8O89cYzJ1QK%2FreazTcKWFHogB%2BSaq6Lw7YCeDvtwplUOS9HESIKR3mzGBmLn1T6gYQPElhHA9iUCq2TfSGCYxse7Zq1Vvo6jpIhh9m9lCOQKUigek%2F2UgY7myylmVRcBSdmTC8F%2BeH6qpopLKbWrT6k88PieTRwMu5qvyLh0Ds8Dnc7QwWrTdKMNBO3ILpO84BapAEtge4DQJw23AcCVLTJylNcv0cSgvQ5Vt%2BGkUVuzDQAkHxsTmr%2BLI5nBvNMKWvQ3%2BxFSAPhKkCZvdWJSzuT78GTQGCF9jPWulrLWd7xApcpgX6YU9YpVKyIwhuVHKKX1idOI9Bi%2FozJilJoq3AYZoFFfITuwrxBhQsiNyG9OjReHaPQEe6iM9S70W1ZLWSsJwSLMoTIfLLdzq1OwLq1RhIkjYavvx7b7dn9nLR%2B9iRCPmi%2Bz4WXDtziDzS4dWTvYCAafkGtMSbccyxOZDx3%2FZPzlAkg6zcLny8ESGlMiGd%2FBh5MHYrMMiG9K8GOp4BRQF%2FqQYliQg0ppk7DeB0QwFtTLp%2BC2mr3SvrqEmKX7J%2FaVpKB5xhPlj19AhwNNcjcYtIYoOhzjp2qmPjx%2FloLq9Y6Wo8lI2N4XtGtNl7iekQ2YC4t48oQij2hX1L3LHx7tVpovzwseydddg51ICDoCj5TGLv83jRxpDda24b77nPIkaWSaGYZOpr4k03%2FssaNKk9InI6zlBiaPshotw%3D&X-Amz-Signature=fa862a6fac2d376a8f03edd44e639948db3901b0a2bec866610b9aa2a9b67496&X-Amz-SignedHeaders=host&x-id=PutObject\"\n}"
+						}
+					]
+				},
+				{
+					"name": "LikeUser",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{pk_user}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/dev/likeuser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"dev",
+								"likeuser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pk_user",
+			"value": "123",
+			"type": "string"
+		}
+	]
+}

@@ -1,28 +1,37 @@
 {
-  "name": "get-users",
+  "name": "demo-serverless-apigw-dynamodb",
   "version": "1.0.0",
   "description": "This is a demo about serverless application framework on AWS",
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "test": "echo \"Error: no test specified\"",
+    "start": "serverless offline start",
+    "layer": "node ./src/generate-layer/handler.js",
+    "deploy": "serverless deploy"
   },
   "keywords": [
-    "sam",
     "serverless",
     "node",
-    "aws"
+    "aws",
+    "apigateway",
+    "sqs",
+    "dynamodb",
+    "s3",
+    "apirest"
   ],
   "author": "Diego Requejo",
   "license": "MIT",
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.529.1",
+    "@aws-sdk/client-s3": "^3.540.0",
     "@aws-sdk/lib-dynamodb": "^3.529.1",
+    "@aws-sdk/s3-request-presigner": "^3.540.0",
     "serverless": "^3.38.0",
+    "serverless-apigateway-service-proxy": "^2.2.1",
     "serverless-dynamodb": "^0.2.50",
+    "serverless-lift": "^1.28.1",
     "serverless-offline": "^13.3.3"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.536.0",
-    "@aws-sdk/s3-request-presigner": "^3.536.0",
     "sharp": "^0.32.6"
   }
 }
