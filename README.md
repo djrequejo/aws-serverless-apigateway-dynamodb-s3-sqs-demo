@@ -1,6 +1,11 @@
-# Demo SAM API Gateway DynamoDB
+# Demo Serverless Framework
 
-This project demonstrates the usage of AWS Serverless Application Model (SAM) to create a RESTful API with AWS API Gateway, DynamoDB and S3 on AWS Lambda.
+This project demonstrates the usage of Serverless Framework on AWS. Creating a RESTful API with AWS API Gateway, Lambdas, DynamoDB, S3 and SQS.
+
+## Architecture
+This image is from [Serverless Framework Advanced Course on Platzi](https://platzi.com/cursos/serverless-avanzado/)
+
+![AWS Architecture](./assets/image.png)
 
 ## Prerequisites
 
