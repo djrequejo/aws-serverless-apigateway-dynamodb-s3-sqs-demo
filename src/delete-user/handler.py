@@ -11,7 +11,7 @@ if IS_OFFLINE:
     )
     client = boto3.resource('dynamodb', endpoint_url='http://localhost:8000')
 
-table = client.Table('demo-sam-apigw-dynamodb-table')
+table = client.Table(os.getenv('TABLE_NAME'))
 
 def deleteUser(event, context):
     user_id = event['pathParameters']['id']

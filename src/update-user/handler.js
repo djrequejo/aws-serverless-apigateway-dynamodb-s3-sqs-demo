@@ -17,6 +17,7 @@ if (process.env.IS_OFFLINE) {
 
 const client = new DynamoDBClient(dynamoDBClientParams);
 const docClient = DynamoDBDocumentClient.from(client);
+const TABLE_NAME = process.env.TABLE_NAME;
 
 const updateUser = async (event, context) => {
     let { id } = event.pathParameters;
@@ -25,7 +26,7 @@ const updateUser = async (event, context) => {
     console.log(`Body: ${userBody}`);
 
     const command = new UpdateCommand({
-        TableName: "demo-sam-apigw-dynamodb-table",
+        TableName: TABLE_NAME,
         Key: {
             pk: id
         },

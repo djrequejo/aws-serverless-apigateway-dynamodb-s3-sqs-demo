@@ -1,7 +1,5 @@
-
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
-const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
-const { randomUUID } = require("crypto");
+const { UpdateCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 
 let dynamoDBClientParams = {};
 
@@ -20,28 +18,29 @@ const client = new DynamoDBClient(dynamoDBClientParams);
 const docClient = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.TABLE_NAME;
 
-const createUser = async (event, context) => {
-    const id = randomUUID();
+function sleep(ms) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
+}
 
-    let userBody = JSON.parse(event.body);
-    userBody.pk = id;
+const likeuser = async (event, context) => {
+    const body = event.Records[0].body;
+    const userid = JSON.parse(body).id;
+    console.log(userid);
 
-    console.log(`Body: ${userBody}`);
-
-    const command = new PutCommand({
+    const command = new UpdateCommand({
         TableName: TABLE_NAME,
-        Item: userBody
+        Key: { pk: userid },
+        UpdateExpression: "ADD likes :increment",
+        ExpressionAttributeValues: {
+            ":increment": 1
+        },
+        ReturnValues: "ALL_NEW"
     });
 
     const response = await docClient.send(command);
-    return {
-        "statusCode": 200,
-        "body": JSON.stringify({
-            'user': userBody
-        })
-    };
-};
-
-module.exports = {
-    createUser
+    await sleep(4000);
+    console.log(response);
 }
+module.exports = { likeuser }

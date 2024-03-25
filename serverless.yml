@@ -6,7 +6,7 @@ provider:
   stage: dev
   apiGateway:
     apiKeys:
-      - ${self:custom.servicename}-apikey
+      - ${self:custom.apikeyname}
   iam:
     role:
       statements:
@@ -19,10 +19,14 @@ provider:
   environment:
     BUCKET_NAME: ${self:custom.bucketname}
     REGION: ${aws:region}
+    SECRET: ${self:custom.secretname}
+    TABLE_NAME: ${self:custom.tablename}
 
 plugins:
   - serverless-dynamodb
   - serverless-offline
+  - serverless-apigateway-service-proxy
+  - serverless-lift
 
 package:
   individually: true
@@ -30,6 +34,11 @@ package:
     - "!**"
 
 functions:
+  custom-authorizer:
+    handler: src/authorizer/handler.authorize
+    package:
+      patterns:
+        - "src/authorizer/handler.js"
   get-users:
     handler: src/get-users/handler.getUsers
     package:
@@ -52,6 +61,9 @@ functions:
     events:
       - http:
           path: users
+          authorizer:
+            name: custom-authorizer
+            resultTtlInSeconds: 15
           method: POST
           request:
             schemas:
@@ -113,20 +125,52 @@ functions:
           rules:
             - prefix: upload/
 
+constructs:
+  sqs-queu:
+    type: queue
+    batchSize: 1
+    worker:
+      handler: src/likeuser/handler.likeuser
+      # reservedConcurrency: 1
+      package:
+        patterns:
+          - "src/likeuser/handler.js"
+    extensions:
+      queue:
+        Properties:
+          QueueName: ${self:custom.queuename}
+
 custom:
-  servicename: demo-sam-apigw-dynamodb
-  tablename: ${self:custom.servicename}-table
-  bucketname: djrequejo-dev-${self:custom.servicename}-bucket-111
+  servicename: demo-serverless-apigw-dynamodb
+  tablename: ${self:custom.servicename}-${self:provider.stage}-table
+  bucketname: ${self:custom.servicename}-${self:provider.stage}-bucket
+  queuename: ${self:custom.servicename}-${self:provider.stage}-likequeue
+  secretname: ${ssm:/${self:custom.servicename}/${self:provider.stage}}
+  apikeyname: ${self:custom.servicename}-${self:provider.stage}-apikey
   serverless-dynamodb:
-    # If you only want to use DynamoDB Local in some stages, declare them here
     stages:
       - dev
     start:
       port: 8000
       inMemory: true
       migrate: true
-    # Uncomment only if you already have a DynamoDB running locally
-    # noStart: true
+  apiGatewayServiceProxies:
+    - sqs:
+        path: /likeuser
+        method: post
+        queueName: ${self:custom.queuename}
+        cors: true
+        response:
+          template:
+            # `success` is used when the integration response is 200
+            success: |-
+              { "message": "accepted" }
+             # `clientError` is used when the integration response is 400
+            clientError: |-
+              { "message": "there is an error in your request" }
+             # `serverError` is used when the integration response is 500
+            serverError: |-
+              { "message": "there was an error handling your request" }
 
 layers:
   base:
